@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { useAuthDialog } from '../../../contexts/AuthDialogContext';
 import { AuthService } from '../../../api/auth/AuthService';
 import { useUser } from '../../../contexts';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 interface ILoginForm {
   email: string;
@@ -24,6 +24,7 @@ const initialFormValues: ILoginForm = {
 
 export const DialogLogin = () => {
   const { isOpen, closeDialog, openDialog } = useAuthDialog();
+  const [mesageLogin, setMesageLogin] = useState('');
 
   const {
     register,
@@ -39,7 +40,7 @@ export const DialogLogin = () => {
   const onSubmit = (data: ILoginForm) => {
     AuthService.login(data.email, data.password).then((response) => {
       if (response instanceof Error) {
-        console.error(response);
+        setMesageLogin("E-mail ou senha incorretos.");
         return;
       }
       login(response.token, response.admin);
@@ -64,6 +65,11 @@ export const DialogLogin = () => {
       >
         <div className="border border-slate-900 flex flex-col justify-center items-center p-4">
           <h2 className="font-butler text-4xl w-full text-center mb-4">Login</h2>
+          {mesageLogin && (
+            <div className="bg-red-300 text-white text-center py-2 px-4 mb-4 rounded font-montserrat">
+              {mesageLogin}
+            </div>
+          )}
           <form onSubmit={handleSubmit(onSubmit)} className="px-4 w-full space-y-4 font-montserrat">
             <div>
               <label className="block text-sm font-medium">Email</label>

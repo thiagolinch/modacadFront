@@ -13,6 +13,7 @@ export type Admin = {
 
 export function AdminLogin() {
   const { login } = useUser();
+  const [mesageLogin, setMesageLogin] = useState('');
 
   // SETTING API
   const [adminEmail, setAdminEmail] = useState<Admin | string>();
@@ -28,17 +29,23 @@ export function AdminLogin() {
       password: adminPassword,
     };
 
-    await api.post('/admin-session/sessions', admin).then((response) => {
-      if (!response) {
-        throw new Error('Not Allowed');
-      }
-
-      const { token, admin } = response.data;
-
-      login(token, admin);
-
+    try {
+      const response = await api.post('/admin-session/sessions', admin);
+  
+      const { token, admin: adminData } = response.data;
+  
+      login(token, adminData);
+  
       history(`/dashboard/texto`);
-    });
+    } catch (error: any) {
+      // Pega mensagem da API, se existir
+      const errorMessage =
+        error.response?.data?.message ||
+        error.response?.data?.error ||
+        'E-mail ou senha errados';
+  
+      setMesageLogin(errorMessage);
+    }
   }
 
   return (
@@ -53,6 +60,9 @@ export function AdminLogin() {
             Adm Login
           </div>
           <div className="flex flex-col justify-center items-center">
+            <div className='w-full h-5 justify-center items-center flex mb-4'>
+              {mesageLogin && <span className='text-red-500 font-montserrat'>{mesageLogin}</span>}
+            </div>
             <form action="" method="post" className=" mb-[20px] px-3 min-w-[100%] md:min-w-[50%] md:max-w-[70%]">
               <input
                 type="email"
