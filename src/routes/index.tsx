@@ -6,6 +6,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 import { Home } from '../pages/home/Home';
 import { PlansPage } from '../pages/plans/PlansPage';
 import { AdminLogin } from '../pages/admin/AdminLogin';
+import { ResetPassword } from '../pages/resetPassword/resetPasswordpage';
 import { BlankPage } from '../pages/blank';
 import { Dashboard } from '../pages/dashboard/Dashboard';
 import { PopularPosts } from '../pages/posts/textos/PopularPosts';
@@ -90,6 +91,9 @@ export const AppRoutes = () => {
       </Route>
 
       <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/resetar-senha/:token" element={<ResetPassword />} />
+
+      {/* Rotas de Política de Privacidade e Termos e Condições */}
 
       <Route path="/politica-de-privacidade" element={<PrivacyPolicyPage />} />
       <Route path="/termos-e-condicoes" element={<TermsAndConditionsPage />} />
