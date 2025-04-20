@@ -14,12 +14,14 @@ import { useScreenSize } from '../../shared/hook/useScreenSize';
 import bannerDesktop from '../../assets/imgs/hero/telma-foto-topo-3-corte.jpg';
 import bannerMobile from '../../assets/imgs/hero/mobile-telma-foto-topo.jpg';
 import imagemTelma from '../../assets/imgs/sobre-telma/telma-foto-quem-1.png';
+import { CTAApp } from '../../shared/components/cta/CTAApp';
 
 export function Home() {
   const { isSmallScreen, isTablet } = useScreenSize();
 
   const [subjects, setSubjects] = useState<ISubjectData[]>([]);
   const [lastPost, setLastPost] = useState<IPostData>();
+  const [lastPilula, setLastPilula] = useState<IPostData>();
   const [posts, setPosts] = useState<IPostData[]>([]);
   const [mostReadPosts, setMostReadPosts] = useState<IPostData[]>([]);
   const [pilulas, setPilulas] = useState<IPostData[]>([]);
@@ -47,6 +49,7 @@ export function Home() {
         console.error(response.message);
         return;
       }
+      setLastPilula(response.posts[0]);
       setPilulas(response.posts);
     });
     PostsService.getMostReadPosts().then((response) => {
@@ -135,7 +138,18 @@ export function Home() {
             ))}
           </div>
         </MySection>
+      )}      
+      {lastPilula && (
+        <MySection
+          title="Última Pílula"
+          titleLink={`/pilulas/${lastPilula.canonicalUrl}`}
+          featuredTitle={isSmallScreen}
+          disableInternalPadding
+        >
+          <FeaturedPost post={lastPilula} />
+        </MySection>
       )}
+      <CTAApp />
       {/* Textos mais lidos */}
       {mostReadPosts.length > 0 && (
         <MySection title="Textos mais lidos" titleLink="/posts/popular" disableInternalPadding invisibleBottomBorder>
