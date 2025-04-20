@@ -6,6 +6,7 @@ import { useAuthDialog } from '../../../contexts/AuthDialogContext';
 import { AuthService } from '../../../api/auth/AuthService';
 import { useUser } from '../../../contexts';
 import { useEffect, useState } from 'react';
+import { api } from '../../../../shared/services/axios';
 
 interface ILoginForm {
   email: string;
@@ -25,6 +26,8 @@ const initialFormValues: ILoginForm = {
 export const DialogLogin = () => {
   const { isOpen, closeDialog, openDialog } = useAuthDialog();
   const [mesageLogin, setMesageLogin] = useState('');
+  const [mesageResetPassword, setPasswordMesage] = useState('');
+  const [email, setEmail] = useState('');
 
   const {
     register,
@@ -48,6 +51,11 @@ export const DialogLogin = () => {
       closeDialog();
     });
   };
+
+  async function handleResetPassword(email: string) {
+    await api.post('/password/forgot', { email });
+    setMesageLogin("Um link foi enviado para o email informado, clique no link para redefinir sua senha.");
+  }
 
   useEffect(() => {
     if (isOpen) {
@@ -75,6 +83,7 @@ export const DialogLogin = () => {
               <label className="block text-sm font-medium">Email</label>
               <input
                 {...register('email')}
+                onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 className="w-full bg-transparent border-b border-slate-900 shadow-sm placeholder-[#202020] text-center focus:outline-none"
               />
@@ -87,7 +96,12 @@ export const DialogLogin = () => {
                 type="password"
                 className="w-full bg-transparent border-b border-slate-900 shadow-sm placeholder-[#202020] text-center focus:outline-none"
               />
-              {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+              <button
+                className="highlight-link"
+                onClick={() => handleResetPassword(email as string)}
+              >
+                <span className="font-medium text-sm">Esqueceu a senha? Digite o e-mail e clique aqui.</span>
+              </button>
             </div>
             <button type="submit" className="w-full px-8 py-4 border border-slate-900 text-xl highlight-link">
               Entrar

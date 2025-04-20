@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 
 import { api } from '../../shared/services/axios';
 import { useUser } from '../../shared/contexts/UserContext';
@@ -14,6 +14,7 @@ export type Admin = {
 export function AdminLogin() {
   const { login } = useUser();
   const [mesageLogin, setMesageLogin] = useState('');
+  const [passwordMesage, setPasswordMesage] = useState('');
 
   // SETTING API
   const [adminEmail, setAdminEmail] = useState<Admin | string>();
@@ -48,6 +49,12 @@ export function AdminLogin() {
     }
   }
 
+  async function handleResetPassword(email: string) {
+    await api.post('/password/forgot', { email });
+    setPasswordMesage("Um link foi enviado para o email informado, clique no link para redefinir sua senha.");
+  }
+
+
   return (
     <div className="w-[100%] h-screen justify-center fixed flex  backdrop-blur-sm">
       <div className="bg-[#f1ece8] p-[10px] h-[385px] w-[80%] min-w-[320px] max-w-[500px] justify-self-center items-center mt-[8%]">
@@ -61,7 +68,11 @@ export function AdminLogin() {
           </div>
           <div className="flex flex-col justify-center items-center">
             <div className='w-full h-5 justify-center items-center flex mb-4'>
-              {mesageLogin && <span className='text-red-500 font-montserrat'>{mesageLogin}</span>}
+              {passwordMesage ? (
+              <span className='text-green-500 font-montserrat'>{passwordMesage}</span>
+              ) : (
+              mesageLogin && <span className='text-red-500 font-montserrat'>{mesageLogin}</span>
+              )}
             </div>
             <form action="" method="post" className=" mb-[20px] px-3 min-w-[100%] md:min-w-[50%] md:max-w-[70%]">
               <input
@@ -99,6 +110,11 @@ export function AdminLogin() {
               onClick={handleLogin}
             >
               Entrar
+            </button>
+            <button
+              onClick={() => handleResetPassword(adminEmail as string)}
+            >
+              Esqueceu a senha? Clique aqui
             </button>
           </div>
         </div>
