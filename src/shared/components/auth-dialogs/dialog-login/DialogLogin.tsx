@@ -26,7 +26,6 @@ const initialFormValues: ILoginForm = {
 export const DialogLogin = () => {
   const { isOpen, closeDialog, openDialog } = useAuthDialog();
   const [mesageLogin, setMesageLogin] = useState('');
-  const [mesageResetPassword, setPasswordMesage] = useState('');
   const [email, setEmail] = useState('');
 
   const {
