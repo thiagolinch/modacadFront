@@ -47,6 +47,10 @@ export const DialogCadastro = () => {
         return;
       }
 
+      window.gtag && window.gtag('event', 'sign_up', {
+        method: 'popup_form' // ou email, google, etc, como preferir
+      });
+
       login(loginResponse.token, loginResponse.admin);
       reset(initialFormValues);
       closeDialog();
