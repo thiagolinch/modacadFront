@@ -5,6 +5,7 @@ declare global {
         process: () => void;
       };
     };
+    gtag?: (...args: any[]) => void;
   }
 }
 
