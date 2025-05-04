@@ -6,10 +6,19 @@ import { DrawerLateral } from './DrawerLateral';
 
 import LogoDesktop from '../../../../assets/svg/HOME logo TELMA BARCELLOS modacad.svg';
 import LogoMobile from '../../../../assets/svg/MOBILE Logo TELMA BARCELLOS modacad.svg';
+import { useUser } from '../../../../shared/contexts';
+import { FaUserCircle } from 'react-icons/fa';
+import { UserProfileCard } from '../../user-card-information/userProfileCard';
 
 export const PublicHeader = () => {
+  const { user } = useUser();
+
   const [isOpen, setIsOpen] = useState(false);
   const toggleDrawer = () => setIsOpen((prev) => !prev);
+
+  
+  const [isCardOpen, setIsCardOpen] = useState(false);
+  const toggleProfile = () => setIsCardOpen((prev) => !prev);
 
   const [isOpenSearch, setIsOpenSearch] = useState(false);
   const toggleDialog = () => setIsOpenSearch((prev) => !prev);
@@ -45,6 +54,14 @@ export const PublicHeader = () => {
               />
             </svg>
           </button>
+          {user ? (
+            <button
+              className="hidden lg:flex font-medium text-sm border items-center justify-center border-r-0 border-b-0 border-t-0 border-zinc-950 w-24 h-24 px-6 py-8 hover:bg-[#dcdf1e]"
+              onClick={toggleProfile}
+            >
+              <FaUserCircle size={35}/>
+            </button>
+          ) : null }
           <button
             className="font-medium text-sm border border-r-0 border-b-0 border-t-0 border-zinc-950 w-24 h-24 px-6 py-7 hover:bg-[#dcdf1e] flex items-center justify-center"
             onClick={toggleDrawer}
@@ -64,6 +81,9 @@ export const PublicHeader = () => {
       </div>
       <DrawerLateral isOpen={isOpen} toggleDrawer={toggleDrawer} />
       <SearchDialog isOpen={isOpenSearch} toggleDialog={toggleDialog} isDashboard={false} />
+      {
+        user && isCardOpen ? <UserProfileCard isOpen={isCardOpen} toggleDialog={toggleProfile} /> : null
+      }
     </div>
   );
 };

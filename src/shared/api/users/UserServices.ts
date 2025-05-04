@@ -79,6 +79,7 @@ const inviteMember = async (email: string, role: string): Promise<void | Error> 
 type bodyUpdate = {
   name: string;
   email: string;
+  cellphone?: string;
 };
 
 const updateStaffById = async (id: string, body: bodyUpdate): Promise<void | Error> => {
@@ -108,6 +109,10 @@ export type TProfile = {
   name: string;
   role: string;
   avatar: string | null;
+  cellphone?: string;
+  payment_created_at?: Date | null;
+  payment_updated_at?: Date | null;
+  subscription_created_at?: Date | null;
 };
 
 export type TMemberProfile = {

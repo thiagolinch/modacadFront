@@ -1,8 +1,11 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { useAuthDialog } from '../../../../shared/contexts/AuthDialogContext';
 import { useUser } from '../../../../shared/contexts';
+import { CiLogout } from 'react-icons/ci';
+import { FaUserCircle } from 'react-icons/fa';
+import { UserProfileCard } from '../../user-card-information/userProfileCard';
 
 interface IDrawerLateralProps {
   isOpen: boolean;
@@ -20,6 +23,10 @@ const menuItems = [
 
 export const DrawerLateral: FC<IDrawerLateralProps> = ({ isOpen, toggleDrawer }) => {
   const { user, logout } = useUser();
+  
+  const [isCardOpen, setIsCardOpen] = useState(false);
+  const toggleProfile = () => setIsCardOpen((prev) => !prev);
+
   const { openDialog } = useAuthDialog();
 
   return (
@@ -54,15 +61,24 @@ export const DrawerLateral: FC<IDrawerLateralProps> = ({ isOpen, toggleDrawer })
       <div className="p-4 font-montserrat">
         {user ? (
           <div className="border border-gray-950 p-4 font-montserrat font-light text-gray-950">
-            <p>
-              Olá, <span className="font-medium">{user.name}</span>
-            </p>
-            <p>
-              Não é você?{' '}
-              <button className="text-blue-600 font-medium hover:text-blue-400" onClick={logout}>
-                Sair
+            <div className='flex items-center justify-between gap-2 mt-2 px-5'>
+              <div className='flex items-center gap-2'>
+                <FaUserCircle size={45}/>
+                <div>
+                  Olá, <span className='text-yellow-600'>{user.name}</span>
+                  <button
+                  onClick={toggleProfile}
+                   className='lg:hidden text-sm font-montserrat font-light'
+                  >
+                    Meu perfil
+                  </button>
+                </div>
+              </div>
+
+              <button className="flex gap-2 mr-10" onClick={logout}>
+                Sair <CiLogout size={24} />
               </button>
-            </p>
+            </div>
           </div>
         ) : (
           <div className="border border-gray-950 p-4">
@@ -73,6 +89,9 @@ export const DrawerLateral: FC<IDrawerLateralProps> = ({ isOpen, toggleDrawer })
           </div>
         )}
       </div>
+      {
+        user && isCardOpen ? <UserProfileCard isOpen={isCardOpen} toggleDialog={toggleProfile} /> : null
+      }
     </div>
   );
 };

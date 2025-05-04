@@ -73,8 +73,6 @@ export function Home() {
     });
   }, []);
 
-  console.log(lastPost?.canonicalUrl);
-
   return (
     <div className="mx-auto h-screen relative">
       <PublicHeader />
