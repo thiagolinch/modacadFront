@@ -11,7 +11,7 @@ export const PageMembers = () => {
   const [members, setMembers] = useState<IUserData[]>([]);
   const [memberId, setMemberId] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
-  const toggleDialog = () => setIsOpen((prev) => !prev);;
+  const toggleDialog = () => setIsOpen((prev) => !prev);
   const [searchParams, setSearchParams] = useSearchParams();
   
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,7 +47,7 @@ export const PageMembers = () => {
     };
 
     fetchMembers();
-  }, [searchParams]);
+  }, [searchParams, isOpen]);
 
   const orderOptions = [
     { name: 'Mais recentes', key: 'desc' },
