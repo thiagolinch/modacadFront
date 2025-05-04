@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { CiLogout } from "react-icons/ci";
 
 import logo from '../../../assets/svg/icon_rounded_bg_red.svg';
 import { useUser } from '../../../shared/contexts';
@@ -41,7 +42,7 @@ const secondaryLinks: ILink[] = [
 ];
 
 export const MenuLateral = () => {
-  const { user } = useUser();
+  const { user, logout } = useUser();
 
   const role = user?.role as TRoleStaff;
 
@@ -64,12 +65,13 @@ export const MenuLateral = () => {
   return (
     <div className="h-full w-full flex flex-col border-r border-gray-950 font-montserrat text-2xl p-4 justify-between">
       {/* Logo */}
-      <div className="flex justify-center">
-        <div className="text-center">
-          <p className="font-butler font-medium text-5xl">dash</p>
-          <hr className="border-t-2 border-gray-950 w-full mt-2" />
-        </div>
+      <div className="grid justify-center mt-10 items-center gap-4">
+          <p className="font-montserrat font-normal text-2xl">Olá, {user?.name} </p>
+          <button onClick={logout} className="flex items-center font-montserrat font-light text-lg gap-2">
+            <CiLogout size={24} /> sair?
+          </button>
       </div>
+
       {/* Primary Links */}
       <nav>
         {mappedPrimaryLinks.map((link) => (
@@ -83,6 +85,7 @@ export const MenuLateral = () => {
           </Link>
         ))}
       </nav>
+
       {/* Secondary Links */}
       <nav>
         {mappedSecondaryLinks.map((link) => (
