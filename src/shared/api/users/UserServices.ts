@@ -110,6 +110,22 @@ export type TProfile = {
   avatar: string | null;
 };
 
+export type TMemberProfile = {
+  id: string;
+  email: string;
+  name: string;
+  role: string;
+  cellphone: string;
+  plans: {
+    id: string;
+  } | null
+  created_at: Date | null
+  payment_created_at: Date | null;
+  payment_updated_at: Date | null;
+  subscription_created_at: Date | null;
+}
+
+
 const getProfile = async () => {
   try {
     const { data } = await api.get<TProfile>('/admins/profile');
@@ -122,6 +138,19 @@ const getProfile = async () => {
     return new Error(errorMessage);
   }
 };
+
+const getMemberProfile = async (id: string) => {
+  try {
+    const { data } = await api.get<TMemberProfile>(`/admins/user/${id}`);
+    if (data) {
+      return data;
+    }
+    return new Error('Erro ao buscar o perfil do usuário');
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Erro desconhecido ao buscar o perfil do usuário';
+    return new Error(errorMessage);
+  }
+}
 
 const updateProfile = async (body: bodyUpdate) => {
   try {
@@ -156,5 +185,6 @@ export const UsersService = {
   updateStaffById,
   deleteById,
   getProfile,
+  getMemberProfile,
   updateProfile,
 };
