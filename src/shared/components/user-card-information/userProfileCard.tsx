@@ -14,14 +14,22 @@ interface IFormMember {
   email: string;
   name: string;
   cellphone: string;
+  role: string
   plans: string;
+  payment_created_at?: string;
+  payment_updated_at?: string;
+  subscription_created_at?: string;
 }
 
 const initialFormValues: IFormMember = {
     email: '',
     name: '',
     cellphone: '',
+    role: '',
     plans: '',
+    payment_created_at: '',
+    payment_updated_at: '',
+    subscription_created_at: '',
 };
 
 const formMemberSchema: yup.ObjectSchema<IFormMember> = yup.object().shape({
@@ -75,6 +83,9 @@ export const UserProfileCard: FC<ICardInfoProps> = ({ isOpen, toggleDialog }) =>
             email: response.email || '',
             name: response.name || '',
             cellphone: response.cellphone || '',
+            role: response.role || '--',
+            payment_created_at: response.payment_created_at instanceof Date ? response.payment_created_at.toISOString() : response.payment_created_at || '--',
+            subscription_created_at: response.subscription_created_at instanceof Date ? response.subscription_created_at.toISOString() : response.subscription_created_at || '--',
           });
           //setProfile(response)
         } finally {
@@ -100,14 +111,14 @@ export const UserProfileCard: FC<ICardInfoProps> = ({ isOpen, toggleDialog }) =>
               <div className="loader">Carregando...</div>
             </div>
           ) : (
-            <div className="grid grid-cols items-center justify-center gap-4 w-full">
-                <form onSubmit={handleSubmit(onSubmit)} className=' w-full'>
-                    <div className="mt-2">
+            <div className="grid items-center justify-center">
+                <form onSubmit={handleSubmit(onSubmit)} className='w-full'>
+                    <div className="mt-2 lg:w-96">
                         <input
                             {...register('name')}
                             type="text"
                             id="name-create"
-                            className="border-b border-black text-gray-900 text-sm block w-full p-2.5 focus:outline-none"
+                            className="border-b border-black text-gray-900 text-sm block w-full p-2.5 text-center focus:outline-none"
                             required
                             disabled={loading}
                         />
@@ -117,7 +128,7 @@ export const UserProfileCard: FC<ICardInfoProps> = ({ isOpen, toggleDialog }) =>
                             {...register('email')}
                             type="text"
                             id="email-create"
-                            className="border-b border-black  text-gray-900 text-sm  block w-full p-2.5 focus:outline-none"
+                            className="border-b border-black  text-gray-900 text-sm  block w-full p-2.5 text-center focus:outline-none"
                             required
                             disabled={loading}
                         />
@@ -127,8 +138,35 @@ export const UserProfileCard: FC<ICardInfoProps> = ({ isOpen, toggleDialog }) =>
                             {...register('cellphone')}
                             type="text"
                             id="cellphone-create"
-                            className="border-b border-black  text-gray-900 text-sm  block w-full p-2.5 focus:outline-none"
+                            className="border-b border-black  text-gray-900 text-sm  block w-full p-2.5 text-center focus:outline-none"
                             disabled={loading}
+                        />
+                    </div>
+                    <div className="mt-2 ">
+                        <label htmlFor="subscription_created_at">Membresia:</label>
+                        <input
+                            {...register('role')}
+                            id="subscription_created_at"
+                            className=" text-gray-900 text-sm block w-full p-2.5 text-center focus:outline-none"
+                            disabled
+                        />
+                    </div>
+                    <div className="mt-2 ">
+                        <label htmlFor="subscription_created_at">Assinatura feita em:</label>
+                        <input
+                            {...register('subscription_created_at')}
+                            id="subscription_created_at"
+                            className=" text-gray-900 text-sm block w-full p-2.5 text-center focus:outline-none"
+                            disabled
+                        />
+                    </div>
+                    <div className="mt-2 ">
+                        <label htmlFor="subscription_created_at">Primeiro Pagamento:</label>
+                        <input
+                            {...register('payment_created_at')}
+                            id="subscription_created_at"
+                            className=" text-gray-900 text-sm block w-full p-2.5 text-center focus:outline-none"
+                            disabled
                         />
                     </div>
                     <div className="mt-10 flex gap-3">

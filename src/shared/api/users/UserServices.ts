@@ -110,6 +110,9 @@ export type TProfile = {
   role: string;
   avatar: string | null;
   cellphone?: string;
+  payment_created_at?: Date | null;
+  payment_updated_at?: Date | null;
+  subscription_created_at?: Date | null;
 };
 
 export type TMemberProfile = {
