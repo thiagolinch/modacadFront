@@ -5,9 +5,13 @@ import { getRoleClass } from '../../../shared/hook/getRoleClass';
 import { DropdownMenu } from '../../../shared/components/ui/dropdown-menu/DropdownMenu';
 import { useSearchParams } from 'react-router-dom';
 import { roles, TUsersRole } from '../../../shared/services/userOptions';
+import { DashboardCardInfo } from '../../../shared/components/user-card-information/dashboard-card-info';
 
 export const PageMembers = () => {
   const [members, setMembers] = useState<IUserData[]>([]);
+  const [memberId, setMemberId] = useState<string>('');
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleDialog = () => setIsOpen((prev) => !prev);;
   const [searchParams, setSearchParams] = useSearchParams();
   
   const [currentPage, setCurrentPage] = useState(1);
@@ -78,14 +82,14 @@ export const PageMembers = () => {
   };
 
   const updateRoleChange = (role: TUsersRole) => {
-      const newSearchParams = new URLSearchParams(searchParams.toString());
-      if (newSearchParams.get('role') === role) {
-        newSearchParams.delete('role');
-      } else {
-        newSearchParams.set('role', role);
-      }
-      setSearchParams(newSearchParams);
-    };
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    if (newSearchParams.get('role') === role) {
+      newSearchParams.delete('role');
+    } else {
+      newSearchParams.set('role', role);
+    }
+    setSearchParams(newSearchParams);
+  };
 
   return (
     <LayoutDashboard>
@@ -135,6 +139,10 @@ export const PageMembers = () => {
             <li
               key={member.id}
               className="border-b border-gray-300 p-4 last:border-0 flex justify-between items-center"
+              onClick={() => {
+                toggleDialog();
+                setMemberId(member.id);
+              }}
             >
               <p className="highlight-link font-semibold">{member.email}</p>
               <p className={`rounded-full px-4 py-1 ${getRoleClass(member.role)}`}>{member.role}</p>
@@ -160,6 +168,7 @@ export const PageMembers = () => {
             Próximo
           </button>
         </div>
+        <DashboardCardInfo isOpen={isOpen} toggleDialog={toggleDialog} id={memberId} />
       </div>
       ) }
 
