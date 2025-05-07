@@ -157,6 +157,18 @@ const getMemberProfile = async (id: string) => {
   }
 }
 
+const exportList = async (): Promise<Blob | null> => {
+  try {
+    const response = await api.get('/admins/export-members', {
+      responseType: 'blob',
+    });
+    return response.data;
+
+  } catch (error) {
+    return null;
+  }
+}
+
 const updateProfile = async (body: bodyUpdate) => {
   try {
     await api.put(`/admins/profile/`, body);
@@ -185,6 +197,7 @@ const updateAvatar = async (File: File): Promise<void | Error> => {
 export const UsersService = {
   getAll,
   getAllStaff,
+  exportList,
   inviteMember,
   updateAvatar,
   updateStaffById,
