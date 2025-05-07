@@ -91,11 +91,38 @@ export const PageMembers = () => {
     setSearchParams(newSearchParams);
   };
 
+  const handleExportClick = async () => {
+    try {
+      const data = await UsersService.exportList();
+      if (!data) return;
+
+      const blob = new Blob([data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+
+      const downloadUrl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = downloadUrl;
+      link.setAttribute('download', 'membros.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+    } catch (error) {
+      console.error('Erro ao exportar membros:', error);
+    }
+  };  
+
   return (
     <LayoutDashboard>
       <div className="flex justify-between">
         <div className="flex gap-2 items-center">
-          <button className="bg-bgBtn text-white font-medium px-4 py-2 opacity-50 cursor-not-allowed">EXPORTAR</button>
+          <button
+            onClick={handleExportClick}
+            className="bg-bgBtn text-white font-medium px-4 py-2"
+          >
+            EXPORTAR
+          </button>
           {/* Filtros */}
                 <div className="flex gap-2 my-4">
                   <DropdownMenu textButton="Membresia" items={rolesOptions} onSelect={handleRoleChange} />
