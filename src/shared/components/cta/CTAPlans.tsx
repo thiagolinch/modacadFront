@@ -2,6 +2,15 @@ import setaCurvaIcon from '../../../assets/icons/seta-curva.svg';
 import { Button } from '../Button';
 
 export function CTAPlans() {
+
+  const handleClickGA = () => {
+
+    window.gtag && window.gtag('event', 'go_to_plans_by_ctaCard', {
+      method: 'cta_card' // ou email, google, etc, como preferir
+    });
+    
+  }
+  
   return (
     <div className="mx-auto">
       <div
@@ -36,7 +45,7 @@ export function CTAPlans() {
           <img src={setaCurvaIcon} alt="" className="max-h-[40px]" />
 
           <div className="hidden lg:flex  lg:flex-col lg:justify-center lg:items-center md:my-10  px-[20px] lg:mr-12 mb-[40px] h-[100%] w-[29%]">
-            <Button title="Conheça os planos" active={false} link="planos" />
+            <Button onClick={handleClickGA} title="Conheça os planos" active={false} link="planos" />
           </div>
         </div>
 

@@ -6,7 +6,7 @@ import { useUser } from '../../shared/contexts/UserContext';
 
 export function ResetPassword() {
   const { token } = useParams(); 
-  const { login } = useUser();
+  const { logout } = useUser();
 
   // SETTING API
   const [newPassword, setNewPassword] = useState<string>('');
@@ -25,13 +25,11 @@ export function ResetPassword() {
     }
 
     try {
-      const response = await api.post(`/password/reset?token=${token}`, {
+      await api.post(`/password/reset?token=${token}`, {
         password: newPassword,
       });
 
-      const { token: authToken, admin: adminData } = response.data;
-
-      login(authToken, adminData);
+      logout();
       history('/');
     } catch (error) {
       console.error("Erro ao resetar a senha:", error);
