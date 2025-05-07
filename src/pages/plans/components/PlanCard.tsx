@@ -22,7 +22,7 @@ export const PlanCard: FC<IPlanCardProps> = ({ plan, highlight = false, isFirst 
 
   const priceParts = transformPrice(Number(plan.price), plan.frequency);
 
-  const handleGeneratePaymentLink = async (planId: string) => {
+  const handleGeneratePaymentLink = async (planId: string, plan_name?: string) => {
     if (!user) {
       setStoredPlanId(planId);
       openDialog('login');
@@ -35,6 +35,10 @@ export const PlanCard: FC<IPlanCardProps> = ({ plan, highlight = false, isFirst 
       console.error(paymentLink);
       return;
     }
+
+    window.gtag && window.gtag('event', plan_name, {
+      method: 'plan_card' // ou email, google, etc, como preferir
+    });
 
     window.location.href = paymentLink;
   };
@@ -78,7 +82,7 @@ export const PlanCard: FC<IPlanCardProps> = ({ plan, highlight = false, isFirst 
       </div>
       <div>
         <button
-          onClick={() => handleGeneratePaymentLink(plan.id)}
+          onClick={() => handleGeneratePaymentLink(plan.id, plan.title)}
           disabled={currentPlan} // Desabilita o botão se for o plano atual
           className={`
             px-8 py-4 border border-gray-950 font-montserrat text-lg

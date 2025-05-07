@@ -44,6 +44,13 @@ const secondaryLinks: ILink[] = [
 export const MenuLateral = () => {
   const { user, logout } = useUser();
 
+  const handleClickGA = () => {
+
+    window.gtag && window.gtag('event', 'go_to_plans_side_menu', {
+      method: 'cta_card' // ou email, google, etc, como preferir
+    });
+  }
+
   const role = user?.role as TRoleStaff;
 
   const accumulatedPermissions = getAccumulatedPermissions(role);
@@ -93,7 +100,14 @@ export const MenuLateral = () => {
             key={link.name}
             to={link.disabled ? '#' : link.path}
             className={`flex items-center mt-4 ${link.disabled ? 'opacity-30 cursor-not-allowed' : 'highlight-link'}`}
-            onClick={(e) => link.disabled && e.preventDefault()}
+            onClick={(e) => {
+              if (link.disabled) {
+                e.preventDefault();
+              } else if (link.path === '/planos') {
+                handleClickGA();
+              }
+            }}
+          
           >
             {link.name}
           </Link>
