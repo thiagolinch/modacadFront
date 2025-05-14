@@ -10,6 +10,9 @@ export const PagePlans = () => {
 
   const handleSelectPlan = (id: string | null) => {
     const plan = plans.find((plan) => plan.id === id);
+    window.gtag && window.gtag('event', `plano_${plan?.title}`, {
+      method: 'button' // ou email, google, etc, como preferir
+    });
     setSelectedPlan(plan || null);
   };
 
