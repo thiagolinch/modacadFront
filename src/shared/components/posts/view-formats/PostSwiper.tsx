@@ -7,7 +7,8 @@ import { IPostData } from '../../../api/posts/PostsService';
 import { SwiperSlidePost } from '../single/PostSlide';
 
 import 'swiper/css';
-import React, { useId } from 'react';
+import React, { useId, useRef } from 'react';
+import type { Swiper as SwiperType } from 'swiper';
 
 interface ISwiperSeeMoreProps {
   redirect: string;
@@ -35,9 +36,25 @@ export const SwiperPosts: React.FC<ISwiperPosts> = ({ posts, slidesPerView = 2, 
   const prevButtonClass = `swiper-button-prev-${sanitizedId}`;
   const nextButtonClass = `swiper-button-next-${sanitizedId}`;
 
+  const swiperRef = useRef<SwiperType | null>(null);
+
+  const handleMouseEnter = () => {
+    swiperRef.current?.autoplay?.start();
+  };
+
+  const handleMouseLeave = () => {
+    swiperRef.current?.autoplay?.stop();
+  };
+
+
   return (
     <div>
-      <div className="border-x border-gray-800">
+      <div 
+        className="border-x border-gray-800"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+
+      >
         <Swiper
           slidesPerView={Math.min(posts.length, slidesPerView)}
           modules={[Navigation, Autoplay]}
@@ -45,7 +62,17 @@ export const SwiperPosts: React.FC<ISwiperPosts> = ({ posts, slidesPerView = 2, 
             nextEl: `.${nextButtonClass}`,
             prevEl: `.${prevButtonClass}`,
           }}
-          autoplay={{ delay: 5000 }}
+          // autoplay={{ delay: 5000 }}
+          autoplay={{
+            delay: 1000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: false, // opcional
+          }}
+          onSwiper={(swiper) => {
+            swiperRef.current = swiper;
+            swiper.autoplay.stop(); // garante que começa parado
+          }}
+          
         >
           {posts.map((post) => (
             <SwiperSlide key={post.id} style={{ height: 'auto' }}>
