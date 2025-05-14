@@ -35,7 +35,7 @@ export function Button(props: buttonInterface) {
     }else{
         return (
             <Link to={`/${props.link}`}>
-                <button className="min-h-[60px] w-auto min-w-[210px] p-2 px-[25px]
+                <button onClick={props.onClick} className="min-h-[60px] w-auto min-w-[210px] p-2 px-[25px]
                     border-[1px] border-[#202020]
                     font-montserrat_medium text-[22px]
                     flex flex-col justify-center items-center

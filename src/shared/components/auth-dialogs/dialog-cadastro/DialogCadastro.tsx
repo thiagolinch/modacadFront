@@ -59,15 +59,23 @@ export const DialogCadastro = () => {
     }
   };
 
+  const handleClose = () => {
+    window.gtag && window.gtag('event', 'cancel_sign_up', {
+      method: 'popup_form' // ou email, google, etc, como preferir
+    });
+    closeDialog();
+  }
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" onClick={closeDialog}>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" onClick={handleClose}>
       <div
         className="bg-[#f1ece8] p-8 w-[80%] max-w-[500px] justify-self-center items-center shadow-modal"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="border border-slate-900 flex flex-col justify-center items-center p-4">
+          <button onClick={handleClose} className='w-full  justify-end flex text-2xl'>x</button>
           <h2 className="font-butler text-4xl w-full text-center mb-4">Cadastro</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="px-4 w-full space-y-4 font-montserrat">
             <div>
