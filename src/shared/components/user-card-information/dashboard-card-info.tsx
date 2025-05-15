@@ -72,6 +72,7 @@ export const DashboardCardInfo: FC<ICardInfoProps> = ({ id, isOpen, toggleDialog
                 <p className="text-gray-700 font-montserrat font-light">Nome: <span className=''>{user?.name}</span></p>
                 <p className="text-gray-700 font-montserrat font-light">Email: <span className=''>{user?.email}</span></p>
                 <p className="text-gray-700 font-montserrat font-light">Membresia: <span className=''>{user?.role}</span></p>
+                <p className="text-gray-700 font-montserrat font-light">Data de criação: <span className=''>{user?.created_at ? new Date(user.created_at).toLocaleDateString() : '-'}</span></p>
               </div>
 
               {/* Coluna 2 - Datas */}
