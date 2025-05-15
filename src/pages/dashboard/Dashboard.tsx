@@ -164,6 +164,11 @@ export const Dashboard: React.FC = () => {
                       {visibilities[row.visibility] ? visibilities[row.visibility].name : row.visibility}
                     </span>
                   </td>
+                  <td className="px-4 py-2 border-b">
+                    <span>
+                      {row.clicks_count ? row.clicks_count : "-"} views
+                    </span>
+                  </td>
                 </tr>
               ))}
             </tbody>

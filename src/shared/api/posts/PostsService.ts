@@ -13,6 +13,7 @@ export interface IPostData {
   type: TPostsType;
   content: string;
   status: TPostsStatus;
+  clicks_count: number;
   images: string[] | null; // TODO: Verificar se é necessário
   visibility: TPostsVisibility;
   created_at: string;

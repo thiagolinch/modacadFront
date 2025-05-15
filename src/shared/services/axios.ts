@@ -2,6 +2,7 @@ import axios from 'axios';
 import { LOCAL_STORAGE_KEY__ACCESS_TOKEN } from './auth';
 
 const api = axios.create({
+  //baseURL: 'http://localhost:5002/',
   baseURL: 'https://api-modacad-72uqj.ondigitalocean.app/',
   headers: {
     'Content-type': 'application/json',
